@@ -1,0 +1,16 @@
+.Test{
+    color: black;
+    font-size: 20px;
+    margin: 10px;
+    border: 1px solid;
+    padding: 10px;
+    
+}
+.my-class{
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+}
+.my-class h1 {
+    text-align: center;
+}
