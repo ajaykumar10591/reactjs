@@ -6,6 +6,8 @@ import GoalList from './components/goal/goalList';
 import NewGoal from './components/newgoal/newgoal';
 import User from './users/pages/User';
 import NewPlaces from './places/pages/NewPlaces';
+import MainNavigation from './shared/components/Navigation/MainNavigation';
+import UsersPlaces from './places/pages/UserPlaces';
 
 const App= ()=>{
   const  [courseGoals,setCourseGoal] = useState([
@@ -20,7 +22,9 @@ const App= ()=>{
   return (
     
   <Router>
-    <Switch>
+    <MainNavigation />
+    <main style={{ marginTop: '5rem' }}>
+      <Switch>
         <Route path = "/course" exact >
           <div className='my-class'>
             <h1>List of All Course Goals</h1>
@@ -31,11 +35,15 @@ const App= ()=>{
         <Route path = "/" exact>
               <User />
         </Route>
+        <Route path = "/:userId/places" exact>
+              <UsersPlaces />
+        </Route>
         <Route path = "/places/newplace" exact>
           <NewPlaces />
         </Route>
         <Redirect to = "/" />
-    </Switch>
+      </Switch>
+    </main>
  </Router>
   
   
