@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "../../UIElements/Card";
 import "./PlaceItem.css";
+import Button  from "../../shared/FormElement/Button";
 const PlaceItem = props => {
  return (
     <li className="place-item">
@@ -15,9 +16,9 @@ const PlaceItem = props => {
         <h3>{props.description}</h3>
       </div>
       <div className="place-actions">
-        <button>View on Map</button>
-        <button>Edit</button>
-        <button>Delete</button>
+        <Button inverse>View on Map</Button>
+        <Button to = {`/places/${props.id}`}>Edit</Button>
+        <Button danger>Delete</Button>
       </div>
       </Card>
     </li>
