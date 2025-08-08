@@ -3,12 +3,12 @@ import Card from "../../UIElements/Card";
 import "./PlaceItem.css";
 import Button  from "../../shared/FormElement/Button";
 import Modal from "../../UIElements/Modal";
+import Map from "../../UIElements/Map";
 
 const PlaceItem = props => {
   const [showMap, setShowMap] = useState(false);
 
   const openMapHandler = () => {
-    console.log("edhdhhdhd");
      setShowMap(true);
   }
     
@@ -20,13 +20,18 @@ const PlaceItem = props => {
       <Modal
         show={showMap}
         onCancel={closeMapHandler}
-        header={props.address}
+        header={props.title}
         contentClass="place-item__modal-content"
         footerClass="place-item__modal-actions"
         footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
       >
         <div className="map-container">
-          <h2>THE MAP!</h2>
+          <Map 
+          center={props.coordinates} 
+          zoom={16}
+          
+          />
+        
         </div>
       </Modal>
       <li className="place-item">
