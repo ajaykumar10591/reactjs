@@ -8,6 +8,7 @@ import User from './users/pages/User';
 import NewPlaces from './places/pages/NewPlaces';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
 import UsersPlaces from './places/pages/UserPlaces';
+import UpdatePlace from './places/pages/UpdatePlace';
 
 const App= ()=>{
   const  [courseGoals,setCourseGoal] = useState([
@@ -41,6 +42,9 @@ const App= ()=>{
         <Route path = "/places/newplace" exact>
           <NewPlaces />
         </Route>
+        <Route path="/places/:placeId">
+            <UpdatePlace />
+          </Route>
         <Redirect to = "/" />
       </Switch>
     </main>
