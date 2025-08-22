@@ -1,56 +1,36 @@
-import React, { useState, useCallback }  from 'react';
-import {BrowserRouter  as Router , Route,Redirect,Switch} from 'react-router-dom';
+import React from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch
+} from 'react-router-dom';
 
-import './App.css';
-import GoalList from './components/goal/goalList';
-import NewGoal from './components/newgoal/newgoal';
-import User from './users/pages/User';
-import NewPlaces from './places/pages/NewPlaces';
-import MainNavigation from './shared/components/Navigation/MainNavigation';
-import UsersPlaces from './places/pages/UserPlaces';
+import Users from './user/pages/Users';
+import NewPlace from './places/pages/NewPlace';
+import UserPlaces from './places/pages/UserPlaces';
 import UpdatePlace from './places/pages/UpdatePlace';
-import Auth from './users/pages/Auth';
+import Auth from './user/pages/Auth';
+import MainNavigation from './shared/components/Navigation/MainNavigation';
 import { AuthContext } from './shared/context/auth-context';
+import { useAuth } from './shared/hooks/auth-hook';
 
-const App= ()=>{
-
-  const  [courseGoals,setCourseGoal] = useState([
-    { id:'cg1', name: 'Finish the Course'},
-    { id:'cg2', name: 'Learn all about the Course'},
-    { id:'cg3', name: 'attemped the Quiz'}
-  ])
-
-  const AddNewGoalHandler = (newGoal) => {
-    setCourseGoal(courseGoals.concat(newGoal));
-   }
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const login = useCallback(() => {
-    setIsLoggedIn(true);
-  }, []);
-  const logout = useCallback(() => {
-    setIsLoggedIn(false);
-  }, []);
+const App = () => {
+  const { token, login, logout, userId } = useAuth();
 
   let routes;
 
-  if (isLoggedIn) {
+  if (token) {
     routes = (
       <Switch>
         <Route path="/" exact>
-          <User />
-        </Route>
-        <Route path = "/course" exact >
-          <div className='my-class'>
-            <h1>List of All Course Goals</h1>
-            <NewGoal onAddNewGoal = {AddNewGoalHandler} />
-            <GoalList goal = {courseGoals} />
-          </div>
+          <Users />
         </Route>
         <Route path="/:userId/places" exact>
-          <UsersPlaces />
+          <UserPlaces />
         </Route>
         <Route path="/places/new" exact>
-          <NewPlaces />
+          <NewPlace />
         </Route>
         <Route path="/places/:placeId">
           <UpdatePlace />
@@ -62,10 +42,10 @@ const App= ()=>{
     routes = (
       <Switch>
         <Route path="/" exact>
-          <User />
+          <Users />
         </Route>
         <Route path="/:userId/places" exact>
-          <UsersPlaces />
+          <UserPlaces />
         </Route>
         <Route path="/auth">
           <Auth />
@@ -75,19 +55,22 @@ const App= ()=>{
     );
   }
 
-
-  
   return (
     <AuthContext.Provider
-    value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
-  >
-    <Router>
-      <MainNavigation />
-      <main>{routes}</main>
-    </Router>
-  </AuthContext.Provider>
+      value={{
+        isLoggedIn: !!token,
+        token: token,
+        userId: userId,
+        login: login,
+        logout: logout
+      }}
+    >
+      <Router>
+        <MainNavigation />
+        <main>{routes}</main>
+      </Router>
+    </AuthContext.Provider>
   );
-}
-
+};
 
 export default App;
